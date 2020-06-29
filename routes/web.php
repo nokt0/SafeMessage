@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/image', function () {
+    $path = Storage::disk('public')->path('OpenSans-Regular.ttf');
+    return \App\ImageTextWriter::TextToImage("sasds1124152asaaaaaaaaaaaaaaaaaasssssss", 40, $path);
 });
