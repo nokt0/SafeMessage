@@ -1,10 +1,6 @@
 <?php
 
-
 namespace App;
-
-use Illuminate\Support\Facades\Storage;
-
 
 class ImageTextWriter
 {
@@ -12,6 +8,7 @@ class ImageTextWriter
         $text = "hello world",
         $newline_after_letters = 40,
         $font = './myfont.ttf',
+        $pathToSave = null,
         $size = 24,
         $rotate = 0,
         $padding = 2,
@@ -79,6 +76,12 @@ class ImageTextWriter
         ImageTTFText($image, $size, $rotate, $offset_x + $padding, $offset_y + $padding, $foreground, $font, $text);
         imagealphablending($image, true);
         imagesavealpha($image, true);
+
+        if ($pathToSave !== null) {
+            imagepng($image,$pathToSave);
+            return 0;
+        }
+
         // output PNG object.
         ob_start();
 
@@ -91,7 +94,8 @@ class ImageTextWriter
 
         imagedestroy($image);
 
-        return response($buffer, 200)->header('Content-type', 'image/png');
+        return response($buffer, 200)
+            ->header('Content-type', 'image/png');
 
     }
 }

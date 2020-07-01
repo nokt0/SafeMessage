@@ -15,6 +15,18 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/image', function () {
-    $path = Storage::disk('public')->path('OpenSans-Regular.ttf');
-    return \App\ImageTextWriter::TextToImage("sasds1124152asaaaaaaaaaaaaaaaaaasssssss", 40, $path);
+    $path = Storage::disk('local')->path('images');//->path('OpenSans-Regular.ttf');
+    return $path;
+    //return \App\ImageTextWriter::TextToImage("sasds1124152asaaaaaaaaaaaaaaaaaasssssss", 40, $path);
 });
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::post('/image', 'MessageController@create');
+
+Route::get('/test',function (){
+    return Storage::disk('public')->path('OpenSans-Regular.ttf');
+});
+
