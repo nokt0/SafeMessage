@@ -11,7 +11,7 @@ class imageRouteTest extends TestCase
     {
         parent::setUp();
         Session::start();
-        $this->json('POST', '/image', ['text' => 'adssad'])
+        $this->json('POST', '/message', ['text' => 'adssad'])
             ->assertJson([
                 'error' => "Not enough params"
             ]);
@@ -21,7 +21,7 @@ class imageRouteTest extends TestCase
     {
         parent::setUp();
         Session::start();
-        $this->json('POST', '/image', [
+        $this->json('POST', '/message', [
             'password' => '2412',
             'text' => "daaaaa1241241246a54 L;lasF aaaaaaa222asdasssssssssssssssssssssssf",
             'counter' => 6,
@@ -33,7 +33,7 @@ class imageRouteTest extends TestCase
         parent::setUp();
         Session::start();
 
-        $this->json('POST', '/image/5efcc8239bb6e', [
+        $this->json('POST', '/message/5efcc8239bb6e', [
             'password' => '2412',
         ])->assertStatus(200);
     }
@@ -42,7 +42,7 @@ class imageRouteTest extends TestCase
         parent::setUp();
         Session::start();
 
-        $this->json('POST', '/image/5efcc8239bb6e', [
+        $this->json('POST', '/message/5efcc8239bb6e', [
             'password' => 'kk22412',
         ])->assertJson(['error' => 'Wrong password']);
     }
