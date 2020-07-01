@@ -9,9 +9,10 @@ class imageTextWriterTest extends TestCase
 {
     public function test()
     {
-        $path = Storage::disk('local')->path('OpenSans-Regular.ttf');
-        $pathToSave = $path = Storage::disk('public')->path('images') . DIRECTORY_SEPARATOR . 'test-image' . '.png';
-        ImageTextWriter::TextToImage("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 40, $path, $pathToSave);
+        parent::setUp();
+        $font = Storage::disk('public')->path('OpenSans-Regular.ttf');
+        $pathToSave = Storage::disk('local')->path('images' . DIRECTORY_SEPARATOR . 'test-image' . '.png');
+        ImageTextWriter::TextToImage("aaaaaaaaaaaaaaaaaasdasd,m21142o21o412oaaaaaaaaaaaaaaaaaaaaaa", 40, $font, $pathToSave);
         $this->assertTrue(true);
     }
 }

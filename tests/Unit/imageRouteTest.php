@@ -2,9 +2,7 @@
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+
 
 class imageRouteTest extends TestCase
 {
@@ -19,15 +17,33 @@ class imageRouteTest extends TestCase
             ]);
     }
 
-    function testPostMessage()
+    function testSendMessage()
     {
         parent::setUp();
         Session::start();
         $this->json('POST', '/image', [
             'password' => '2412',
-            'text' => "daaaaaaaaaaa222asdasf",
+            'text' => "daaaaa1241241246a54 L;lasF aaaaaaa222asdasssssssssssssssssssssssf",
             'counter' => 6,
             'expires' => time() + (7 * 24 * 60 * 60),
         ])->assertStatus(201);
+    }
+
+    function testGetMessage(){
+        parent::setUp();
+        Session::start();
+
+        $this->json('POST', '/image/5efcc8239bb6e', [
+            'password' => '2412',
+        ])->assertStatus(200);
+    }
+
+    function testWrongPassword(){
+        parent::setUp();
+        Session::start();
+
+        $this->json('POST', '/image/5efcc8239bb6e', [
+            'password' => 'kk22412',
+        ])->assertJson(['error' => 'Wrong password']);
     }
 }

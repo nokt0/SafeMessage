@@ -7,22 +7,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use \Illuminate\Database\Eloquent\Builder;
 
-/**
- * Class Message
- *
- * @property int $id
- * @property timestamp without time zone|null $created_at
- * @property timestamp without time zone|null $updated_at
- * @property string $image_name
- * @property string $public_id
- * @property string $password_hash
- * @property int $open_counter
- * @property int $expires
- *
- * @package App\Models
- */
 class Message extends Model
 {
 
