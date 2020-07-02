@@ -1,15 +1,11 @@
-import bootstrap from './bootstrap.js'
 import Input from './components/Input'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import * as React from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
-
-export default function App() {
-    return (
-        <div>
-            <Input>
-
-            </Input>
-        </div>
-    )
+export default function App () {
+  return (
+    <div>
+      <Input/>
+    </div>
+  )
 }

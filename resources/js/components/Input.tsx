@@ -1,5 +1,5 @@
-import React from 'react'
+import * as React from 'react'
 
-export default function Input() {
-    return (<div>Input</div>)
+export default function Input () {
+  return (<div>Input</div>)
 }
