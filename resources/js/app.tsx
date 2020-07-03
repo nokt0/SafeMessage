@@ -1,15 +1,24 @@
 import bootstrap from './bootstrap.js'
-import Input from './components/Input'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {HashRouter as Router} from "react-router-dom";
+import NavigationBar from "./components/NavigationBar";
+import * as React from "react";
+import MessageMenu from "./components/MessageMenu";
+import {Jumbotron} from 'react-bootstrap'
+import MessageInput from "./components/MessageInput";
 
 
 export default function App() {
     return (
         <div>
-            <Input>
+            <Router>
+                <NavigationBar/>
+                <Jumbotron>
+                    <MessageMenu/>
+                    <MessageInput/>
+                </Jumbotron>
 
-            </Input>
+            </Router>
         </div>
     )
 }
