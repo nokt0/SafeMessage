@@ -1,38 +1,34 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { MessagePostingState, FetchingStatus, InputPostMessageState } from './types'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {MessagePostingState, FetchingStatus} from './types'
 
 export const messagePostingInitialState: MessagePostingState = {
-  status: undefined
+    status: FetchingStatus.NOT_STARTED,
+    postedId: '',
+    errorMsg: ''
 }
 
-export const postMessageThunk = createAsyncThunk('messagePosting/postMessage', async (payload: InputPostMessageState) => {
-  // @ts-ignore
-  const csrfToken = document.head.querySelector('[name~=csrf-token][content]').content
-  const response = fetch('/message', {
-    method: 'POST',
-    body: {
-      message: payload.message,
-      password: payload.password
-    },
-    headers: {
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': csrfToken
+export const messagePostingSlice = createSlice({
+    name: 'messagePosting',
+    initialState: messagePostingInitialState,
+    reducers: {
+        inProgress: state => {
+            return {...state, status: FetchingStatus.IN_PROGRESS}
+        },
+        errored: (state, action: PayloadAction<string>) => {
+            return {...state, status: FetchingStatus.ERROR, errorMsg: action.payload}
+        },
+        success: (state,action:PayloadAction<string>) => {
+            return {...state, status: FetchingStatus.SUCCESS, postedId: action.payload}
+        },
+        notStarted: state => {
+            return {...state, status: FetchingStatus.NOT_STARTED}
+        }
     }
-  })
 })
 
-export const messagePostingSlice = createSlice({
-  name: 'messagePosting',
-  initialState: messagePostingInitialState,
-  reducers: {
-    inProgress: state => {
-      return { ...state, status: FetchingStatus.IN_PROGRESS }
-    },
-    errored: state => {
-      return { ...state, status: FetchingStatus.ERROR }
-    },
-    success: state => {
-      return { ...state, status: FetchingStatus.SUCCESS }
-    }
-  }
-})
+export const {
+    inProgress,
+    errored,
+    success,
+    notStarted
+} = messagePostingSlice.actions

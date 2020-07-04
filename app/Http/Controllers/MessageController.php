@@ -98,7 +98,12 @@ class MessageController extends Controller
             // Change Counter
             $counter = $message->getAttribute('open_counter');
             $message->setAttribute('open_counter', $counter - 1)->save();
-            $resp = ['img' => $base64Img];
+            $counter -= 1;
+            $resp = [
+                'img' => $base64Img,
+                'counter' => $counter,
+                'expires' => $expires
+            ];
             return response($resp,200)
                 ->header('Content-Type','application/json');
         } catch (FileNotFoundException $e) {
