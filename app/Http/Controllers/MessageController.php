@@ -29,7 +29,7 @@ class MessageController extends Controller
                     $equal = Message::query()->where('public_id', '=', $publicId)->get();
                 } while ($equal->count() != 0);
 
-                $image_name = $publicId . ' ' . date('s-i-H--d-m-Y');
+                $image_name = $publicId . ' ' . date('H-i-s--d-m-Y');
                 $pathToSave = $path = Storage::disk('local')->path('images') . DIRECTORY_SEPARATOR . $image_name . '.png';
 
                 // Safe image to storage folder

@@ -12,7 +12,7 @@ class imageTextWriterTest extends TestCase
         parent::setUp();
         $font = Storage::disk('public')->path('OpenSans-Regular.ttf');
         $pathToSave = Storage::disk('local')->path('images' . DIRECTORY_SEPARATOR . 'test-image' . '.png');
-        ImageTextWriter::TextToImage("aaaaaaaaaaaaaaaaaasdasd,m21142o21o412oaaaaaaaaaaaaaaaaaaaaaa", 40, $font, $pathToSave);
+        ImageTextWriter::TextToImage("aaaaaaaaaaaaaaaaaasdasd,m21142o21o412oaaaaaaaaaaaaaaaaaaaaaa\nasdassssssssssssss2\nad\nasd\nas\nasdsad\naaaa", 40, $font, $pathToSave);
         $this->assertTrue(true);
     }
 }
