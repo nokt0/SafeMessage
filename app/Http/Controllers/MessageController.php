@@ -73,8 +73,12 @@ class MessageController extends Controller
         $publicId = $request->route('id');
         $message = Message::query()->firstWhere('public_id', '=', $publicId);
 
-        if ($message->count() === 0) {
+        if ($message->count() < 1) {
             return $this->errorResponse('Message doesn\'t exist', 404);
+        }
+
+        if($message->getAttribute('open_counter') < 1){
+            return $this->errorResponse('Number of views exhausted', 403);
         }
 
         $expires = $message->getAttribute('expires');

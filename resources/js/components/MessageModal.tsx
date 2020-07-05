@@ -20,7 +20,7 @@ export default function MessageModal(props: { show: boolean, setShow: any }) {
                 <h4>Share link, and your password.</h4>
                 <Form>
                     <Form.Label>Link:</Form.Label>
-                    <Form.Control value={`${document.location.protocol}//${document.location.host}/#/message/${messagePosting.postedId}`} disabled/>
+                    <Form.Control value={`${document.location.protocol}//${document.location.host}/#/message?id=${messagePosting.postedId}`} disabled/>
                     <Form.Label>Password:</Form.Label>
                     <Form.Control value={inputPostMessageState.password} disabled/>
                 </Form>
