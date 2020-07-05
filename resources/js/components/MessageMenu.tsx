@@ -31,23 +31,23 @@ export default function MessageMenu() {
                     <Form.Row >
                         <Col md="3">
                             <Form.Label>Counter:</Form.Label>
-                            <Form.Control type="number" placeholder="number" onChange={event =>
+                            <Form.Control required type="number" placeholder="number" onChange={event =>
                                 dispatch(inputPostMessageSlice.actions.setCounter(parseInt(event.target.value)))
                             }/>
                         </Col>
                         <Col md="3">
                             <Form.Label>Password:</Form.Label>
-                            <Form.Control type="text" placeholder="password" onChange={event =>
+                            <Form.Control required type="text" placeholder="number" onChange={event =>
                                 dispatch(inputPostMessageSlice.actions.setPassword(event.target.value))
                             }/>
                         </Col>
                         <Col md="2">
                             <Form.Label>Expires data:</Form.Label>
-                            <Form.Control type="date" onChange={event => createExpires(event.target.value,'DATE')} />
+                            <Form.Control required type="date" onChange={event => createExpires(event.target.value,'DATE')} />
                         </Col>
                         <Col md="2">
                             <Form.Label>Expires time(UTC):</Form.Label>
-                            <Form.Control type="time" onChange={event => createExpires(event.target.value,'TIME')}/>
+                            <Form.Control required type="time" onChange={event => createExpires(event.target.value,'TIME')}/>
                         </Col>
 
                     </Form.Row>

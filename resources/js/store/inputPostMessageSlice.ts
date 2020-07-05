@@ -4,7 +4,7 @@ import { InputPostMessageState } from './types'
 export const inputPostMessageInitialState: InputPostMessageState = {
   counter: -1,
   expires: -1,
-  message: '',
+  text: '',
   password: ''
 }
 
@@ -28,7 +28,7 @@ export const inputPostMessageSlice = createSlice({
     }
         ,
     setMessage: (state, action: PayloadAction<string>) => {
-      return { ...state, message: action.payload }
+      return { ...state, text: action.payload }
     },
     setPassword: (state, action: PayloadAction<string>) => {
       return { ...state, password: action.payload }

@@ -8,20 +8,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class User
- * 
- * @property int $id
- * @property character varying $name
- * @property character varying $email
- * @property timestamp without time zone|null $email_verified_at
- * @property character varying $password
- * @property character varying|null $remember_token
- * @property timestamp without time zone|null $created_at
- * @property timestamp without time zone|null $updated_at
- *
- * @package App\Models
- */
 class User extends Model
 {
 	protected $table = 'users';

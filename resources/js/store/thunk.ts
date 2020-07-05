@@ -8,12 +8,12 @@ export function postMessageThunk(payload:InputPostMessageState) {
         dispatch(messagePostingSlice.actions.notStarted())
         if (window['csrf_token'] || process.env.NODE_ENV === 'test') {
             const csrfToken = window['csrf_token'];
-            const {message, password, expires, counter} = payload;
+            const {text, password, expires, counter} = payload;
             dispatch(messagePostingSlice.actions.inProgress())
-            return fetch('/message', {
+            return fetch('/api/message', {
                 method: 'POST',
                 body: JSON.stringify({
-                    message: message,
+                    text: text,
                     password: password,
                     expires: expires,
                     counter: counter
@@ -50,7 +50,7 @@ export function getMessageThunk(payload: InputGetMessageState & {id:string}) {
             const csrfToken = window['csrf_token'];
             const {id, password} = payload;
             dispatch(messageGettingSlice.actions.inProgress())
-            return fetch(`/message/${id}`, {
+            return fetch(`/api/message/${id}`, {
                 method: 'POST',
                 body: JSON.stringify({
                     password: password
@@ -61,7 +61,7 @@ export function getMessageThunk(payload: InputGetMessageState & {id:string}) {
                 }
             })
                 .then(response => {
-                    if (response.status === 201) {
+                    if (response.status === 200) {
                         return response.json() as unknown as MessageDataState
                     }
                     const json = response.json() as unknown as ServerError
@@ -70,7 +70,7 @@ export function getMessageThunk(payload: InputGetMessageState & {id:string}) {
                 .then(json => {
                     dispatch(messageDataSlice.actions.updateCounter(json.counter))
                     dispatch(messageDataSlice.actions.updateExpires(json.expires))
-                    dispatch(messageDataSlice.actions.updateImage(json.image))
+                    dispatch(messageDataSlice.actions.updateImage(json.img))
                     dispatch(messagePostingSlice.actions.success())
                     return json as MessageDataState
                 })
