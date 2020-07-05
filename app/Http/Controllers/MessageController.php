@@ -8,6 +8,8 @@ use Exception;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Uuid;
+
 
 class MessageController extends Controller
 {
@@ -15,7 +17,9 @@ class MessageController extends Controller
     {
         try {
             $data = $request->json()->all();
-            if (isset($data['counter'], $data['password'], $data['text'], $data['expires'])) {
+            if (!isset($data['counter'], $data['password'], $data['text'], $data['expires'])) {
+                return $this->errorResponse('Not enough params',400);
+            }
                 $counter = $data['counter'];
                 $password = $data['password'];
                 $text = $data['text'];
@@ -24,10 +28,7 @@ class MessageController extends Controller
                 $fontPath = Storage::disk('public')->path('OpenSans-Regular.ttf');
 
                 //make uniq id
-                do {
-                    $publicId = uniqid();
-                    $equal = Message::query()->where('public_id', '=', $publicId)->get();
-                } while ($equal->count() != 0);
+                $publicId = Uuid::uuid4();
 
                 $image_name = $publicId . ' ' . date('H-i-s--d-m-Y');
                 $pathToSave = $path = Storage::disk('local')->path('images') . DIRECTORY_SEPARATOR . $image_name . '.png';
@@ -45,24 +46,13 @@ class MessageController extends Controller
                 );
                 $message->save();
 
-            } else {
-                $resp = [
-                    'error' => 'Not enough params'
-                ];
-                return response(json_encode($resp), 400)
-                    ->header('Content-Type', 'application/json');
-            }
-
             $resp = [
-                'publicId' => $message->public_id
+                'publicId' => $publicId
             ];
             return response($resp, 201);
 
         } catch (Exception $e) {
-            $resp = [
-                'error' => 'Unknown error: ' . $e->getMessage()
-            ];
-            return response($resp, 500);
+            return $this->errorResponse('Unknown error: ' . $e->getMessage(),500);
         }
 
     }
@@ -73,8 +63,12 @@ class MessageController extends Controller
         $publicId = $request->route('id');
         $message = Message::query()->firstWhere('public_id', '=', $publicId);
 
-        if ($message->count() === 0) {
+        if ($message->count() < 1) {
             return $this->errorResponse('Message doesn\'t exist', 404);
+        }
+
+        if($message->getAttribute('open_counter') < 1){
+            return $this->errorResponse('Number of views exhausted', 404);
         }
 
         $expires = $message->getAttribute('expires');

@@ -26,7 +26,7 @@ describe('async actions', () => {
         const store = mockStore({})
 
         store.dispatch(postMessageThunk({
-            message: 'asd',
+            text: 'asd',
             expires: 221,
             password: '1421as',
             counter: 241

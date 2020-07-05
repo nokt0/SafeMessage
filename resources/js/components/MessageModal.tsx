@@ -1,25 +1,32 @@
 import * as React from "react"
-import {Modal, Button} from 'react-bootstrap'
+import {Modal, Button, Form} from 'react-bootstrap'
+import {InputPostMessageState, MessagePostingState} from "../store/types";
+import {RootState} from "../store/store";
+import {useSelector} from 'react-redux'
 
+export default function MessageModal(props: { show: boolean, setShow: any }) {
+    const messagePosting: MessagePostingState = useSelector((state: RootState) => state.messagePosting)
+    const inputPostMessageState: InputPostMessageState = useSelector((state: RootState) => state.inputPostMessage)
 
-export default function MessageModal() {
 
     return (
-        <Modal
-            size="lg"
-            aria-labelledby="contained-modal-title-vcenter"
-            centered
-        >
+        <Modal size="lg" onHide={() => props.setShow(false)} centered show={props.show}>
             <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
+                <Modal.Title>
                     Message Sent
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <h4>Share this link, and your password.</h4>
+                <h4>Share link, and your password.</h4>
+                <Form>
+                    <Form.Label>Link:</Form.Label>
+                    <Form.Control value={`${document.location.protocol}//${document.location.host}/#/message?id=${messagePosting.postedId}`} disabled/>
+                    <Form.Label>Password:</Form.Label>
+                    <Form.Control value={inputPostMessageState.password} disabled/>
+                </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button>Close</Button>
+                <Button onClick={() => props.setShow(false)}>Close</Button>
             </Modal.Footer>
         </Modal>
     )

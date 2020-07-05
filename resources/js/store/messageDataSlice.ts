@@ -4,7 +4,7 @@ import { MessageDataState } from './types'
 export const messageDataInitialState: MessageDataState = {
   counter: -1,
   expires: -1,
-  image: ''
+  img: ''
 }
 
 export const messageDataSlice = createSlice({
@@ -18,7 +18,7 @@ export const messageDataSlice = createSlice({
       return { ...state, expires: action.payload }
     },
     updateImage: (state, action: PayloadAction<string>) => {
-      return { ...state, image: action.payload }
+      return { ...state, img: action.payload }
     }
   }
 })

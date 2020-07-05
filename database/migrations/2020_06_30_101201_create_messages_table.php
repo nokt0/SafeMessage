@@ -20,7 +20,7 @@ class CreateMessagesTable extends Migration
             $table->text('public_id');
             $table->text("password_hash");
             $table->integer('open_counter');
-            $table->integer('expires');
+            $table->bigInteger('expires');
         });
     }
 

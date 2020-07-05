@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::post('/message/{id}','MessageController@getMessage');
+Route::post('/api/message/{id}','MessageController@getMessage');
 
-Route::post('/message', 'MessageController@createMessage');
+Route::post('/api/message', 'MessageController@createMessage');
 

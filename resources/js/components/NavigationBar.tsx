@@ -10,7 +10,6 @@ export default function NavigationBar() {
                     SafeMessage
                 </Navbar.Brand>
             </LinkContainer>
-            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
         </Navbar>
     )
 }

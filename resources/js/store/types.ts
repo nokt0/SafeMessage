@@ -25,7 +25,7 @@ export interface ServerError {
 }
 
 export interface InputPostMessageState {
-    message: string,
+    text: string,
     counter: number,
     expires: number,
     password: string
@@ -36,7 +36,7 @@ export interface InputGetMessageState {
 }
 
 export interface MessageDataState {
-    image: string,
+    img: string,
     counter: number,
     expires: number
 }
