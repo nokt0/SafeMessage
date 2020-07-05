@@ -47,7 +47,7 @@ class MessageController extends Controller
                 $message->save();
 
             $resp = [
-                'publicId' => $message->public_id
+                'publicId' => $publicId
             ];
             return response($resp, 201);
 
