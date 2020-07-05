@@ -17,7 +17,7 @@ class ImageTextWriter
         $bg_color = array('red' => 255, 'grn' => 255, 'blu' => 255)
     )
     {
-        $amount_of_lines = ceil(strlen($text) / $newline_after_letters) + substr_count($text, '\n') + 1;
+        //$amount_of_lines = ceil(strlen($text) / $newline_after_letters) + substr_count($text, '\n') + 1;
         $all_lines = explode("\n", $text);
         $text = "";
         $amount_of_lines = count($all_lines);
@@ -27,7 +27,8 @@ class ImageTextWriter
                 $text_final .= mb_substr($value, 0, $newline_after_letters, 'utf-8') . "\n";
                 $value = mb_substr($value, $newline_after_letters, null, 'utf-8');
             }
-            $text .= mb_substr($value, 0, $newline_after_letters, 'utf-8') . ($amount_of_lines - 1 == $key ? "" : "\n");
+            $text .= $text_final . mb_substr($value, 0, $newline_after_letters, 'utf-8') . ($amount_of_lines - 1 == $key ? "" : "\n");
+            $text_final = "";
         }
 
         //

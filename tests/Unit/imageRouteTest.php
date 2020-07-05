@@ -23,7 +23,7 @@ class imageRouteTest extends TestCase
         Session::start();
         $this->json('POST', '/message', [
             'password' => '2412',
-            'text' => "daaaaa1241241246a54 L;lasF aaaaaaa222asdasssssssssssssssssssssssf",
+            'text' => "aaaaaaaaaaaaaaaaaasdasd,m21142o21o412oaaaaaaaaaaaaaaaaaaaaaa\nasdassssssssssssss2\nad\nasd\nas\nasdsad\naaaa",
             'counter' => 6,
             'expires' => time() + (7 * 24 * 60 * 60),
         ])->assertStatus(201);
