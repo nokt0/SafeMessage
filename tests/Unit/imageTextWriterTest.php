@@ -1,13 +1,12 @@
 <?php
 
-
 use Illuminate\Support\Facades\Storage;
 use PHPUnit\Framework\TestCase;
 use App\ImageTextWriter;
 
 class imageTextWriterTest extends TestCase
 {
-    public function test()
+    public function testImage()
     {
         parent::setUp();
         $font = Storage::disk('public')->path('OpenSans-Regular.ttf');
