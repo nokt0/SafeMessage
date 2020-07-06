@@ -5,14 +5,16 @@ import {inputPostMessageSlice} from "../store/inputPostMessageSlice";
 import {useState} from "react";
 import MessageInput from "./MessageInput";
 import {postMessageThunk} from "../store/thunk";
-import {InputPostMessageState} from "../store/types";
+import {InputPostMessageState, MessagePostingState} from "../store/types";
 import {RootState} from "../store/store";
+import ErrorMessage from "./ErrorMessage";
 
 export default function MessageMenu() {
     const dispatch = useDispatch()
     const [dataString, setDataString] = useState('')
     const [timeString, setTimeString] = useState('')
     const inputPostMessageState: InputPostMessageState = useSelector((state: RootState) => state.inputPostMessage)
+    const messagePosting : MessagePostingState = useSelector((state: RootState) => state.messagePosting)
 
     function createExpires(value: string, part: 'DATE' | 'TIME') {
         switch (part) {
@@ -35,6 +37,8 @@ export default function MessageMenu() {
 
     return (
         <Form onSubmit={submitMessage}>
+            {messagePosting?.errorConst && messagePosting?.errorMsg ?
+                (<ErrorMessage message={messagePosting.errorMsg}/>) : ('')}
             <Card bg="light">
                 <Card.Header>Message settings</Card.Header>
                 <Card.Body>

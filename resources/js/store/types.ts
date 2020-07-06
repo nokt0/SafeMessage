@@ -6,7 +6,8 @@ export enum FetchingStatus {
 }
 
 export interface UiDataState {
-    showLinkModal: boolean
+    showLinkModal: boolean,
+    showPasswordModal: boolean
 }
 
 export interface MessagePostingState {

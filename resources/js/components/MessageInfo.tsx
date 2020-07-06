@@ -23,7 +23,7 @@ export function MessageInfo() {
                         <Form.Label>Counter:</Form.Label>
                         <Form.Control value={messageData.counter} disabled/>
                     </Col>
-                    <Col md="3">
+                    <Col md="9">
                         <Form.Label>Expires Data:</Form.Label>
                         <Form.Control value={translateTime()} disabled/>
                     </Col>

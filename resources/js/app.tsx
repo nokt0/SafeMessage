@@ -13,7 +13,7 @@ export default function App() {
         <div>
             <Router>
                 <NavigationBar/>
-                <Jumbotron className="m-0">
+                <Jumbotron className="m-0 vh-100">
                     <Switch>
                         <Route exact path="/">
                             <MessageMenu/>
