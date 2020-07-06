@@ -5,7 +5,6 @@ import NavigationBar from "./components/NavigationBar";
 import * as React from "react";
 import MessageMenu from "./components/MessageMenu";
 import {Jumbotron} from 'react-bootstrap'
-import MessageInput from "./components/MessageInput";
 import Message from "./components/Message";
 
 
@@ -18,7 +17,6 @@ export default function App() {
                     <Switch>
                         <Route exact path="/">
                             <MessageMenu/>
-                            <MessageInput/>
                         </Route>
                         <Route exact path="/message">
                             <Message/>
