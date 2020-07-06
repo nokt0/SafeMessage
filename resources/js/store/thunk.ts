@@ -1,9 +1,15 @@
-import {InputGetMessageState, InputPostMessageState, MessageCreated, MessageDataState, ServerError} from "./types";
+import {
+    InputGetMessageState,
+    InputPostMessageState,
+    MessageCreated,
+    MessageDataState,
+    ServerError
+} from "./types";
 import {messagePostingSlice} from "./messagePostingSlice";
 import {messageDataSlice} from "./messageDataSlice";
 import {messageGettingSlice} from "./messageGettingSlice";
 
-export function postMessageThunk(payload:InputPostMessageState) {
+export function postMessageThunk(payload: InputPostMessageState) {
     return async dispatch => {
         dispatch(messagePostingSlice.actions.notStarted())
         if (window['csrf_token'] || process.env.NODE_ENV === 'test') {
@@ -27,23 +33,30 @@ export function postMessageThunk(payload:InputPostMessageState) {
                     if (response.status === 201) {
                         return response.json() as unknown as MessageCreated;
                     }
-                    const json = response.json() as unknown as ServerError
-                    throw new Error(json.error);
+                    throw response.json()
                 })
                 .then(json => {
                     dispatch(messagePostingSlice.actions.success(json.publicId))
                     return json as MessageCreated
                 })
-                .catch(e => {
-                    dispatch(messagePostingSlice.actions.errored(e.message))
-                    return {error: e.toString()} as ServerError
+                .catch((json) => {
+                    return json.then((error) => {
+                        dispatch(messagePostingSlice.actions.errored({
+                            error: error.error,
+                            errorConst: error.errorConst
+                        } as ServerError))
+                    })
+
                 })
         }
-       return dispatch(messagePostingSlice.actions.errored('csrf token not found'))
+        return dispatch(messagePostingSlice.actions.errored({
+            error: 'csrf token not found',
+            errorConst: 'CSRF_TOKEN'
+        } as ServerError))
     }
 }
 
-export function getMessageThunk(payload: InputGetMessageState & {id:string}) {
+export function getMessageThunk(payload: InputGetMessageState & { id: string }) {
     return async dispatch => {
         dispatch(messageGettingSlice.actions.notStarted())
         if (window['csrf_token'] || process.env.NODE_ENV === 'test') {
@@ -64,21 +77,27 @@ export function getMessageThunk(payload: InputGetMessageState & {id:string}) {
                     if (response.status === 200) {
                         return response.json() as unknown as MessageDataState
                     }
-                    const json = response.json() as unknown as ServerError
-                    throw new Error(json.error);
+                    throw response.json();
                 })
                 .then(json => {
                     dispatch(messageDataSlice.actions.updateCounter(json.counter))
                     dispatch(messageDataSlice.actions.updateExpires(json.expires))
                     dispatch(messageDataSlice.actions.updateImage(json.img))
-                    dispatch(messagePostingSlice.actions.success())
+                    dispatch(messageGettingSlice.actions.success())
                     return json as MessageDataState
                 })
-                .catch(e => {
-                    dispatch(messageGettingSlice.actions.errored(e.message))
-                    return {error: e.toString()} as ServerError
+                .catch((json) => {
+                    return json.then((error) => {
+                        dispatch(messageGettingSlice.actions.errored({
+                            error: error.error,
+                            errorConst: error.errorConst
+                        } as ServerError))
+                    })
                 })
         }
-        return dispatch(messageGettingSlice.actions.errored('csrf token not found'))
+        return dispatch(messageGettingSlice.actions.errored({
+            error: 'csrf token not found',
+            errorConst: 'CSRF_TOKEN'
+        } as ServerError))
     }
 }

@@ -7,13 +7,16 @@ export enum FetchingStatus {
 
 export interface MessagePostingState {
     status: FetchingStatus,
+    errorConst: string,
     errorMsg: string,
-    postedId: string
+    postedId: string,
+
 }
 
 export interface MessageGettingState {
     status: FetchingStatus,
-    errorMsg: string
+    errorMsg: string,
+    errorConst: string
 }
 
 export interface MessageCreated {
@@ -21,6 +24,7 @@ export interface MessageCreated {
 }
 
 export interface ServerError {
+    errorConst: string;
     error: string
 }
 
@@ -40,3 +44,11 @@ export interface MessageDataState {
     counter: number,
     expires: number
 }
+
+export const FILE_NOT_FOUND = 'FILE_NOT_FOUND';
+export const WRONG_PASSWORD = 'WRONG_PASSWORD';
+export const MESSAGE_EXPIRED = 'MESSAGE_EXPIRED';
+export const COUNTER_IS_ZERO = 'COUNTER_IS_ZERO';
+export const MESSAGE_DOESNT_EXIST = 'MESSAGE_DOESNT_EXIST';
+export const NOT_ENOUGH_PARAMS = 'NOT_ENOUGH_PARAMS';
+export const UNKNOWN_ERROR = 'UNKNOWN_ERROR';

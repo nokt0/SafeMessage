@@ -1,9 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {FetchingStatus, MessageGettingState} from './types'
+import {FetchingStatus, MessageGettingState, ServerError} from './types'
 
 export const messageGettingInitialState: MessageGettingState = {
     status: FetchingStatus.NOT_STARTED,
-    errorMsg: ''
+    errorMsg: '',
+    errorConst: ''
 }
 
 export const messageGettingSlice = createSlice({
@@ -13,13 +14,18 @@ export const messageGettingSlice = createSlice({
         inProgress: state => {
             return {...state, status: FetchingStatus.IN_PROGRESS}
         },
-        errored: (state,action: PayloadAction<string>) => {
-            return {...state, status: FetchingStatus.ERROR, errorMsg: action.payload}
+        errored: (state, action: PayloadAction<ServerError>) => {
+            return {
+                ...state,
+                status: FetchingStatus.ERROR,
+                errorMsg: action.payload.error,
+                errorConst: action.payload.errorConst
+            }
         },
         success: state => {
             return {...state, status: FetchingStatus.SUCCESS}
         },
-        notStarted: (state, ) => {
+        notStarted: (state,) => {
             return {...state, status: FetchingStatus.NOT_STARTED}
         }
     }

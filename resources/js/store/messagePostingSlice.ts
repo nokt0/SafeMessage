@@ -1,10 +1,11 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {MessagePostingState, FetchingStatus} from './types'
+import {MessagePostingState, FetchingStatus, ServerError} from './types'
 
 export const messagePostingInitialState: MessagePostingState = {
     status: FetchingStatus.NOT_STARTED,
     postedId: '',
-    errorMsg: ''
+    errorMsg: '',
+    errorConst: ''
 }
 
 export const messagePostingSlice = createSlice({
@@ -14,10 +15,15 @@ export const messagePostingSlice = createSlice({
         inProgress: state => {
             return {...state, status: FetchingStatus.IN_PROGRESS}
         },
-        errored: (state, action: PayloadAction<string>) => {
-            return {...state, status: FetchingStatus.ERROR, errorMsg: action.payload}
+        errored: (state, action: PayloadAction<ServerError>) => {
+            return {
+                ...state,
+                status: FetchingStatus.ERROR,
+                errorMsg: action.payload.error,
+                errorConst: action.payload.errorConst
+            }
         },
-        success: (state,action:PayloadAction<string>) => {
+        success: (state, action: PayloadAction<string>) => {
             return {...state, status: FetchingStatus.SUCCESS, postedId: action.payload}
         },
         notStarted: state => {
@@ -25,10 +31,3 @@ export const messagePostingSlice = createSlice({
         }
     }
 })
-
-export const {
-    inProgress,
-    errored,
-    success,
-    notStarted
-} = messagePostingSlice.actions
