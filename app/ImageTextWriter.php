@@ -22,6 +22,7 @@ class ImageTextWriter
         $text = "";
         $amount_of_lines = count($all_lines);
         $text_final = "";
+        //Adding line break
         foreach ($all_lines as $key => $value) {
             while (mb_strlen($value, 'utf-8') > $newline_after_letters) {
                 $text_final .= mb_substr($value, 0, $newline_after_letters, 'utf-8') . "\n";
@@ -38,7 +39,7 @@ class ImageTextWriter
             file_put_contents($font, file_get_contents('https://github.com/potyt/fonts/raw/master/macfonts/Arial%20Unicode%20MS/Arial%20Unicode.ttf'));
         }
 
-        // get the font height.
+        // Get the font height.
         $bounds = ImageTTFBBox($size, $rotate, $font, "W");
         if ($rotate < 0) {
             $font_height = abs($bounds[7] - $bounds[1]);
@@ -47,7 +48,8 @@ class ImageTextWriter
         } else {
             $font_height = abs($bounds[7] - $bounds[1]);
         }
-        // determine bounding box.
+        // Determine bounding box.
+        // $bounds[] its array with 8 elements representing four points making the bounding box of the text
         $bounds = ImageTTFBBox($size, $rotate, $font, $text);
         if ($rotate < 0) {
             $width = abs($bounds[4] - $bounds[0]);
@@ -66,6 +68,7 @@ class ImageTextWriter
             $offset_x = 0;
         }
 
+        //creating image
         $image = imagecreate($width + ($padding * 2) + 1, $height + ($padding * 2) + 1);
 
         $background = ImageColorAllocate($image, $bg_color['red'], $bg_color['grn'], $bg_color['blu']);
