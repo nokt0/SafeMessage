@@ -19,10 +19,8 @@ export default function App() {
                         <Route exact path="/">
                             <MessageMenu/>
                             <MessageInput/>
-
                         </Route>
                         <Route exact path="/message">
-
                             <Message/>
                         </Route>
                     </Switch>

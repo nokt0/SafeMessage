@@ -1,25 +1,31 @@
 import * as React from "react";
-import {Form,Card, Button} from 'react-bootstrap'
-import {useDispatch,useSelector} from 'react-redux'
+import {Button, Card, Form} from 'react-bootstrap'
+import {useDispatch, useSelector} from 'react-redux'
 import {inputPostMessageSlice} from "../store/inputPostMessageSlice";
 import {RootState} from "../store/store";
-import {InputPostMessageState} from "../store/types";
+import {FetchingStatus, InputPostMessageState, MessagePostingState, UiDataState} from "../store/types";
 import {postMessageThunk} from "../store/thunk";
 import MessageModal from "./MessageModal";
-import {useState} from "react";
+import {uiDataSlice} from "../store/UiDataSlice";
 
 export default function MessageInput() {
     const dispatch = useDispatch()
     const inputPostMessageState: InputPostMessageState = useSelector((state: RootState) => state.inputPostMessage)
-    const [show, setShow] = useState(false);
+    const messagePosting: MessagePostingState = useSelector((state: RootState) => state.messagePosting)
+    const uiDataState: UiDataState = useSelector((state: RootState) => state.uiData)
 
-    function submitMessage(event){
+    function submitMessage(event) {
         event.preventDefault()
         dispatch(postMessageThunk(inputPostMessageState))
-        setShow(true);
+            .then(() => {
+                if (messagePosting.status === FetchingStatus.SUCCESS) {
+                    dispatch(uiDataSlice.actions.showLinkModal(true))
+                }
+            })
+
     }
 
-    return(
+    return (
         <div>
             <Card className="mt-2">
                 <Card.Body>
@@ -32,7 +38,7 @@ export default function MessageInput() {
                     </Form>
                 </Card.Body>
             </Card>
-            <MessageModal show={show} setShow={setShow}/>
+            <MessageModal show={uiDataState.showLinkModal}/>
         </div>
     )
 }

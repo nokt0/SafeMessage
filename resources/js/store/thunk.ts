@@ -2,16 +2,20 @@ import {
     InputGetMessageState,
     InputPostMessageState,
     MessageCreated,
-    MessageDataState,
+    MessageDataState, NOT_ENOUGH_PARAMS,
     ServerError
 } from "./types";
 import {messagePostingSlice} from "./messagePostingSlice";
 import {messageDataSlice} from "./messageDataSlice";
 import {messageGettingSlice} from "./messageGettingSlice";
+import {uiDataSlice} from "./UiDataSlice";
 
 export function postMessageThunk(payload: InputPostMessageState) {
     return async dispatch => {
         dispatch(messagePostingSlice.actions.notStarted())
+        if(!(payload?.password && payload?.text && payload?.expires && payload.counter)){
+            dispatch(messagePostingSlice.actions.errored({error:'Not enough params',errorConst:NOT_ENOUGH_PARAMS}))
+        }
         if (window['csrf_token'] || process.env.NODE_ENV === 'test') {
             const csrfToken = window['csrf_token'];
             const {text, password, expires, counter} = payload;
@@ -37,7 +41,8 @@ export function postMessageThunk(payload: InputPostMessageState) {
                 })
                 .then(json => {
                     dispatch(messagePostingSlice.actions.success(json.publicId))
-                    return json as MessageCreated
+                    dispatch(uiDataSlice.actions.showLinkModal(true))
+                    return json
                 })
                 .catch((json) => {
                     return json.then((error) => {
@@ -59,11 +64,14 @@ export function postMessageThunk(payload: InputPostMessageState) {
 export function getMessageThunk(payload: InputGetMessageState & { id: string }) {
     return async dispatch => {
         dispatch(messageGettingSlice.actions.notStarted())
+        if(!(payload?.id && payload?.password)){
+           return dispatch(messageGettingSlice.actions.errored({error:'Not enough params',errorConst:NOT_ENOUGH_PARAMS}))
+        }
         if (window['csrf_token'] || process.env.NODE_ENV === 'test') {
             const csrfToken = window['csrf_token'];
             const {id, password} = payload;
             dispatch(messageGettingSlice.actions.inProgress())
-            return fetch(`/api/message/${id}`, {
+            return await fetch(`/api/message/${id}`, {
                 method: 'POST',
                 body: JSON.stringify({
                     password: password

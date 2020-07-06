@@ -5,6 +5,10 @@ export enum FetchingStatus {
     ERROR = 'ERROR'
 }
 
+export interface UiDataState {
+    showLinkModal: boolean
+}
+
 export interface MessagePostingState {
     status: FetchingStatus,
     errorConst: string,

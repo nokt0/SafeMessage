@@ -2,15 +2,16 @@ import * as React from "react"
 import {Modal, Button, Form} from 'react-bootstrap'
 import {InputPostMessageState, MessagePostingState} from "../store/types";
 import {RootState} from "../store/store";
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
+import {uiDataSlice} from "../store/UiDataSlice";
 
-export default function MessageModal(props: { show: boolean, setShow: any }) {
+export default function MessageModal(props: { show: boolean }) {
     const messagePosting: MessagePostingState = useSelector((state: RootState) => state.messagePosting)
     const inputPostMessageState: InputPostMessageState = useSelector((state: RootState) => state.inputPostMessage)
-
+    const dispatch = useDispatch()
 
     return (
-        <Modal size="lg" onHide={() => props.setShow(false)} centered show={props.show}>
+        <Modal size="lg" onHide={() => dispatch(uiDataSlice.actions.showLinkModal(false))} centered show={props.show}>
             <Modal.Header closeButton>
                 <Modal.Title>
                     Message Sent
@@ -26,7 +27,7 @@ export default function MessageModal(props: { show: boolean, setShow: any }) {
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={() => props.setShow(false)}>Close</Button>
+                <Button onClick={() => dispatch(uiDataSlice.actions.showLinkModal(false))}>Close</Button>
             </Modal.Footer>
         </Modal>
     )
