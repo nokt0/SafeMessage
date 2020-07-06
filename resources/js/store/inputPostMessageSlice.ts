@@ -15,18 +15,17 @@ export const inputPostMessageSlice = createSlice({
     setCounter: (state, action: PayloadAction<number>) => {
       return { ...state, counter: action.payload }
     },
-    setExpires:{
-        reducer : (state, action: PayloadAction<number>) => {
-            return { ...state, expires: action.payload }
-        },
-        prepare: (payload: string) => {
-            const date = Date.parse(payload)
-            return{
-                payload: date
-            }
+    setExpires: {
+      reducer: (state, action: PayloadAction<number>) => {
+        return { ...state, expires: action.payload }
+      },
+      prepare: (payload: string) => {
+        const date = Date.parse(payload)
+        return {
+          payload: date
         }
-    }
-        ,
+      }
+    },
     setMessage: (state, action: PayloadAction<string>) => {
       return { ...state, text: action.payload }
     },
