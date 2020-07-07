@@ -10,6 +10,7 @@ import { messagePostingSlice } from './messagePostingSlice'
 import { messageDataSlice } from './messageDataSlice'
 import { messageGettingSlice } from './messageGettingSlice'
 import { uiDataSlice } from './UiDataSlice'
+import { setCookie } from './cookieHelpers'
 
 export function postMessageThunk (payload: InputPostMessageState) {
   return async dispatch => {
@@ -95,6 +96,8 @@ export function getMessageThunk (payload: InputGetMessageState & { id: string })
           dispatch(messageDataSlice.actions.updateExpires(json.expires))
           dispatch(messageDataSlice.actions.updateImage(json.img))
           dispatch(messageGettingSlice.actions.success())
+          setCookie('messageLastPath', decodeURI(window.location.href), undefined)
+          setCookie('messageLastTime', decodeURI(new Date().toString()), undefined)
           return json as MessageDataState
         })
         .catch((json) => {
