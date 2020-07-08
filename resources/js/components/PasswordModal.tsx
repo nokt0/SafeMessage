@@ -22,7 +22,7 @@ export default function PasswordModal (props: { show: boolean, submit: any }) {
               <h4>Input Password:</h4>
               <Form.Label>Password:</Form.Label>
               <Form.Row>
-                <Col><Form.Control required onChange={
+                <Col><Form.Control type="password" required onChange={
                   (event) => dispatch(inputGetMessageSlice.actions.setPassword(event.target.value))}
                 placeholder="password"/></Col>
                 <Col><Button type="submit">Submit</Button></Col>

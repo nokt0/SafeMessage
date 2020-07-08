@@ -11,6 +11,7 @@ import { messageDataSlice } from './messageDataSlice'
 import { messageGettingSlice } from './messageGettingSlice'
 import { uiDataSlice } from './UiDataSlice'
 import { setCookie } from './cookieHelpers'
+const CryptoJS = require('crypto-js')
 
 export function postMessageThunk (payload: InputPostMessageState) {
   return async dispatch => {
@@ -22,11 +23,12 @@ export function postMessageThunk (payload: InputPostMessageState) {
       const csrfToken = window.csrf_token
       const { text, password, expires, counter } = payload
       dispatch(messagePostingSlice.actions.inProgress())
+      const hash = CryptoJS.SHA256(password)
       return fetch('/api/message', {
         method: 'POST',
         body: JSON.stringify({
           text: text,
-          password: password,
+          password: hash.toString(),
           expires: expires,
           counter: counter
         }),
@@ -75,10 +77,11 @@ export function getMessageThunk (payload: InputGetMessageState & { id: string })
       const csrfToken = window.csrf_token
       const { id, password } = payload
       dispatch(messageGettingSlice.actions.inProgress())
+      const hash = CryptoJS.SHA256(password)
       return await fetch(`/api/message/${id}`, {
         method: 'POST',
         body: JSON.stringify({
-          password: password
+          password: hash.toString()
         }),
         headers: {
           'Content-Type': 'application/json',

@@ -30,7 +30,7 @@ class MessageController extends Controller
                 return $this->errorResponse('Not enough params', 400,self::NOT_ENOUGH_PARAMS);
             }
             $counter = $data['counter'];
-            $password = $data['password'];
+            $password = hash('sha256',$data['password']);
             $text = $data['text'];
             $expires = $data['expires'];
             $salt = getenv('SALT');
@@ -88,7 +88,7 @@ class MessageController extends Controller
 
         //Check password
         $password_hash = $message->getAttribute('password_hash');
-        $password = $data['password'];
+        $password = hash('sha256',$data['password']);
         $salt = getenv('SALT');
         if (!password_verify($password . $salt, $password_hash)) {
             return $this->errorResponse('Wrong password', 403, self::WRONG_PASSWORD);
