@@ -1,6 +1,6 @@
 ## О Проекте
-`SafeMessage` - Сервис для обмена конфиденциальными сообщениями.
-Создан с использованием backend: Laravel и frontend: React.
+`SafeMessage` - Сервис для обмена конфиденциальными сообщениями.<br>
+Создан с использованием backend: `Laravel` и frontend: `React`.
 
 ## Интерфейс
 ![alt text](./doc/MainPage.png "Main Page")
